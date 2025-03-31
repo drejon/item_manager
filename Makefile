@@ -15,3 +15,7 @@ django_scaffolder:
 
 create_app:
 	docker compose run --rm back ./manage.py startapp ${i}
+
+migrate:
+	docker compose run --rm back python manage.py makemigrations
+	docker compose run --rm back python manage.py migrate
