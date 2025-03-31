@@ -1,0 +1,42 @@
+services:
+  back:
+    build:
+      context: ./back
+    ports:
+      - 9000:9000
+    volumes:
+      - type: bind
+        source: ./back
+        target: /opt/workdir
+  
+  front:
+    build:
+      context: ./front
+    ports:
+      - 5173:5173
+    volumes:
+      - front_modules:/opt/workdir/node_modules
+      - type: bind
+        source: ./front
+        target: /opt/workdir
+
+  django_scaffolder:
+      build:
+        context: .
+        dockerfile: Dockerfile.django
+      volumes:
+        - type: bind
+          source: .
+          target: /opt/workdir
+        
+  vite_scaffolder:
+    build:
+      context: .
+      dockerfile: Dockerfile.vite
+    volumes:
+      - type: bind
+        source: .
+        target: /opt/workdir
+
+volumes:
+  front_modules:
