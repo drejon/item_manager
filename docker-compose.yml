@@ -8,6 +8,13 @@ services:
       - type: bind
         source: ./back
         target: /opt/workdir
+    environment:
+      - DB_NAME=mydatabase
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB_HOST=postgres
+    depends_on:
+      - postgres
   
   postgres:
     image: postgres:16.3-bookworm
@@ -21,7 +28,7 @@ services:
       POSTGRES_DB: mydatabase
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
-      DJANGO_SETTINGS_MODULE: back.settings
+      DJANGO_SETTINGS_MODULE: core.settings
 
   front:
     build:
