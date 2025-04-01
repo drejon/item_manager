@@ -9,6 +9,20 @@ services:
         source: ./back
         target: /opt/workdir
   
+  postgres:
+    image: postgres:16.3-bookworm
+    tty: true
+    stdin_open: true
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      DJANGO_SETTINGS_MODULE: back.settings
+
   front:
     build:
       context: ./front
@@ -37,6 +51,11 @@ services:
       - type: bind
         source: .
         target: /opt/workdir
-
+  adminer:
+    image: adminer
+    ports:
+      - 10000:8080
+      
 volumes:
   front_modules:
+  postgres_data:

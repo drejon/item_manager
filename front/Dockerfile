@@ -17,5 +17,4 @@ RUN npm install
 
 COPY --chown=${USERNAME}:${USERNAME} . ${WORKPATH}
 
-
 CMD ["npm", "run", "dev"]
