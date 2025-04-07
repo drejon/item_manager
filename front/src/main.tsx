@@ -6,7 +6,8 @@ import App from './App.tsx'
 
 import './index.css'
 
-const GOOGLE_ID = import.meta.env.GOOGLE_ID
+const GOOGLE_ID = import.meta.env.VITE_GOOGLE_ID
+console.log('OOOOOOMG', GOOGLE_ID)
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
