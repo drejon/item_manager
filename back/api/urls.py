@@ -1,7 +1,10 @@
 from django.urls import path #type:ignore
-from .views import ItemAPI, ItemDetailAPI
+from .views.item.item import Item
+from .views.item.item_detail import ItemDetail
+
 
 urlpatterns = [
-    path('items', ItemAPI.as_view(), name='item_list'),
-    path('items/<int:item_id>', ItemDetailAPI.as_view(), name='item_detail'),
+    path('items', Item.as_view(), name='item_list'),
+    path('items/<int:item_id>', Item.as_view(), name='item_detail'),
+    path('auth/google', ItemDetail.as_view(), name='google_login'),
 ]
