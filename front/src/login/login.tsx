@@ -1,9 +1,12 @@
+import { GithubLogin } from "./auth/GitHubLogin";
+import { GoogleLoginButton } from "./auth/GoogleLogin";
+
 export function Login() {
 
 	return (
-		<form action="">
-			<input type="text" />
-			<input type="text" />
-		</form>
+		<section>
+			<GoogleLoginButton/>
+			{/* <GithubLogin/> */}
+		</section>
 	)
 }
