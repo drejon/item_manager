@@ -2,6 +2,8 @@ services:
   back:
     build:
       context: ./back
+    env_file:
+      - .env
     ports:
       - 9000:9000
     volumes:
@@ -13,6 +15,7 @@ services:
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
       - DB_HOST=postgres
+      - PYTHONUNBUFFERED=1
     depends_on:
       - postgres
   
@@ -33,6 +36,8 @@ services:
   front:
     build:
       context: ./front
+    env_file:
+      - .env
     ports:
       - 5173:5173
     volumes:
