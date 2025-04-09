@@ -5,21 +5,19 @@ import axios from 'axios';
 
 export const GoogleLoginButton: React.FC = () => {
   const handleLogin = async (credentialResponse: CredentialResponse) => {
-    const GOOGLE_ID = import.meta.env.VITE_GOOGLE_ID
-    
-    console.log('OOOOOOMG', import.meta.env)
     if (!credentialResponse.credential) return;
     
     try {
       const res = await axios.post("http://localhost:9000/v1/auth/", {
-        access_token: credentialResponse.credential
+        access_token: credentialResponse.credential,
+        withCredentials: true
       });
       
       // handle JWT or user info
       console.log("Login successful:", res.data);
       // e.g., store token in localStorage or context
     } catch (error) {
-      console.error("Login failed:", error);
+      console.log(error.toJSON());
     }
   };
 
