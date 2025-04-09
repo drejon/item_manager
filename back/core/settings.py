@@ -27,13 +27,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-7pw&pl517g#@(kd#mr++b5usr7rygaso%&r*7$#8qdvf&e_(2w'
 
-GOOGLE_ID = os.environ.get("GOOGLE_ID")
-GOOGLE_SECRET = os.environ.get("GOOGLE_SECRET")
+GOOGLE_ID = os.environ.get("VITE_GOOGLE_ID")
+GOOGLE_SECRET = os.environ.get("VITE_GOOGLE_SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    "http://localhost:5173",
+    # "http://localhost",
+]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "credentials",
+    "authorization",
+    "content-type",
+    "Access-Control-Allow-Credentials",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+    "X-CSRFToken",
+)
 
 # Application definition
 
@@ -45,15 +59,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
+
     'rest_framework',
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'rest_framework.authtoken',
+    'corsheaders',
     'api',
     'items',
 ]
@@ -62,12 +79,13 @@ INSTALLED_APPS = [
 
 REST_USE_JWT = True
 
-DJREST_AUTH = {
-    'USE_JWT': True,
-}
+# DJREST_AUTH = {
+#     'USE_JWT': True,
+# }
 SITE_ID = 1
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
