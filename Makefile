@@ -7,15 +7,16 @@ up:
 down:
 	docker compose down
 
+init: build
+	rm -rf back/node_modules
+	rm -rf front/node_modules
+	mkdir back/node_modules
+	mkdir front/node_modules
+	docker compose run --rm back npm install
+	docker compose run --rm front npm install
+
+test_back:
+	docker compose run --rm back npm test
+
 vite_scaffolder:
-	docker compose run --rm vite_scaffolder npm create vite@latest ${i}  
-
-django_scaffolder:
-	docker compose run --rm django_scaffolder django-admin startproject core ./back
-
-create_app:
-	docker compose run --rm back ./manage.py startapp ${i}
-
-migrate:
-	docker compose run --rm back python manage.py makemigrations
-	docker compose run --rm back python manage.py migrate
+	docker compose run --rm vite_scaffolder npm create vite@latest ${i}

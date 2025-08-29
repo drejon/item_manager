@@ -1,21 +1,20 @@
-FROM python:3.13-slim-bookworm
+FROM node:22-bookworm-slim AS base
 
-ARG USER_ID=1000
-ARG GROUP_ID=1000
+ENV USERNAME=node
+ENV WORKPATH=/opt/workdir
+ENV USER_ID=1000
+ENV GROUP_ID=1000
 
-ENV USERNAME servo
-ENV WORKPATH /opt/workdir
-RUN addgroup --gid ${GROUP_ID} $USERNAME
-RUN adduser --uid ${USER_ID} --gid ${GROUP_ID} --disabled-password --gecos '' $USERNAME
-WORKDIR $WORKPATH
-RUN chown -R ${USER_ID}:${GROUP_ID} .
+RUN usermod -u ${USER_ID} ${USERNAME}
+RUN usermod -g ${GROUP_ID} ${USERNAME}
 
-USER $USERNAME
+RUN mkdir -p ${WORKPATH}/node_modules && chown -R ${USERNAME}:${USERNAME} ${WORKPATH}
 
-COPY --chown=$USERNAME:$USERNAME requirements.txt $WORKPATH
+WORKDIR ${WORKPATH}
 
-RUN pip install -r requirements.txt
+CMD ["npm", "run", "dev"]
 
-ENV DJANGO_SETTINGS_MODULE=core.settings
+COPY --chown=${USERNAME}:${USERNAME} . $WORKPATH
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:9000"]
+FROM base AS ci
+RUN npm install

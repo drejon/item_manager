@@ -2,11 +2,13 @@ services:
   back:
     build:
       context: ./back
+      target: base
     env_file:
       - .env
     ports:
       - 9000:9000
     volumes:
+      - back_modules:/opt/workdir/node_modules
       - type: bind
         source: ./back
         target: /opt/workdir
@@ -18,7 +20,7 @@ services:
       - PYTHONUNBUFFERED=1
     depends_on:
       - postgres
-  
+
   postgres:
     image: postgres:16.3-bookworm
     tty: true
@@ -46,15 +48,6 @@ services:
         source: ./front
         target: /opt/workdir
 
-  django_scaffolder:
-      build:
-        context: .
-        dockerfile: Dockerfile.django
-      volumes:
-        - type: bind
-          source: .
-          target: /opt/workdir
-        
   vite_scaffolder:
     build:
       context: .
@@ -67,7 +60,8 @@ services:
     image: adminer
     ports:
       - 10000:8080
-      
+
 volumes:
+  back_modules:
   front_modules:
   postgres_data:
